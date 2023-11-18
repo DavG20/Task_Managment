@@ -94,89 +94,93 @@ const TodoForm: React.FC<TodoFormProps> = ({
   };
 
   return (
-    <div
-      className={`max-w-xl w-full bg-gray-50 border rounded-lg m-2 p-4 duration-500 ${
-        isVisible ? "translate-x-0 opacity-100" : " translate-x-full opacity-0"
-      }`}
-    >
-      <form onSubmit={handleSubmit} className=" mx-auto mt-4 p-4 ">
-        <h2 className="text-2xl mb-4"> Task:</h2>
-        <div className="mb-4">
-          <input
-            type="text"
-            name="title"
-            value={newTask.title}
-            onChange={handleInputChange}
-            className={`border border-gray-400 p-2 w-full rounded-md ${
-              errors.title ? "border-red-400" : "border-gray-400"
-            }`}
-            placeholder="Title"
-          />
-          <span className="text-red-400 m-1">{errors.title}</span>
-        </div>
-
-        <div className="mb-4">
-          <textarea
-            name="description"
-            value={newTask.description}
-            onChange={handleInputChange}
-            rows={4}
-            className={`border border-gray-400 p-2 w-full rounded-md ${
-              errors.description ? "border-red-400" : "border-gray-400"
-            }`}
-            placeholder="Description"
-          />
-          <span className="text-red-400 m-1">{errors.description}</span>
-        </div>
-
-        <div className="mb-4">
-          <div className="flex  mt-6">
-            <label className="block  pr-4 ">Deadline:</label>
+    <div className="  max-w-md m-2 w-full">
+      <div
+        className={` bg-gray-50  border rounded-lg  duration-500 ${
+          isVisible
+            ? " translate-x-0 opacity-100"
+            : " translate-x-full opacity-0"
+        }`}
+      >
+        <form onSubmit={handleSubmit} className=" mx-auto mt-4 p-4 ">
+          <h2 className="text-2xl mb-4"> Task:</h2>
+          <div className="mb-4">
             <input
-              type="date"
-              name="deadLine"
-              value={newTask.deadLine}
+              type="text"
+              name="title"
+              value={newTask.title}
               onChange={handleInputChange}
-              className={`border  p-2 rounded-md ${
-                errors.deadLine ? "border-red-400" : "border-gray-400"
+              className={`border border-gray-400 p-2 w-full rounded-md ${
+                errors.title ? "border-red-400" : "border-gray-400"
               }`}
-              placeholder={newTask.deadLine}
+              placeholder="Title"
             />
+            <span className="text-red-400 m-1">{errors.title}</span>
           </div>
-          <span className="text-red-400 m-1">{errors.deadLine}</span>
-        </div>
 
-        <div className="flex mb-4 mt-6">
-          <label className="block  pr-4">Category:</label>
-          <select
-            name="category"
-            value={newTask.category}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-2  rounded-md"
-          >
-            {Object.values(TaskCategory).map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex mb-4 mt-10 ">
-          <button
-            type="submit"
-            className=" mr-2 mt-6 text-gray-600 p-2 rounded-md hover:bg-gray-300 border border-gray-400  font-bold w-full bg-gray-200"
-          >
-            {isEditMode ? "Update Task" : "Add Task"}
-          </button>
-          <button
-            type="button"
-            onClick={handleCancel}
-            className=" mt-6 text-gray-600 p-2 rounded-md hover:bg-red-500 border border-red-400 hover:text-white font-bold w-full bg-red-400"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
+          <div className="mb-4">
+            <textarea
+              name="description"
+              value={newTask.description}
+              onChange={handleInputChange}
+              rows={4}
+              className={`border border-gray-400 p-2 w-full rounded-md ${
+                errors.description ? "border-red-400" : "border-gray-400"
+              }`}
+              placeholder="Description"
+            />
+            <span className="text-red-400 m-1">{errors.description}</span>
+          </div>
+
+          <div className="mb-4">
+            <div className="flex  mt-6">
+              <label className="block  pr-4 ">Deadline:</label>
+              <input
+                type="date"
+                name="deadLine"
+                value={newTask.deadLine}
+                onChange={handleInputChange}
+                className={`border  p-2 rounded-md ${
+                  errors.deadLine ? "border-red-400" : "border-gray-400"
+                }`}
+                placeholder={newTask.deadLine}
+              />
+            </div>
+            <span className="text-red-400 m-1">{errors.deadLine}</span>
+          </div>
+
+          <div className="flex mb-4 mt-6">
+            <label className="block  pr-4">Category:</label>
+            <select
+              name="category"
+              value={newTask.category}
+              onChange={handleInputChange}
+              className="border border-gray-300 p-2  rounded-md"
+            >
+              {Object.values(TaskCategory).map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex mb-4 mt-10 ">
+            <button
+              type="submit"
+              className=" mr-2 mt-6 text-gray-600 p-2 rounded-md hover:bg-gray-300 border border-gray-400  font-bold w-full bg-gray-200"
+            >
+              {isEditMode ? "Update Task" : "Add Task"}
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className=" mt-6 text-gray-600 p-2 rounded-md hover:bg-red-500 border border-red-400 hover:text-white font-bold w-full bg-red-400"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

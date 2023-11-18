@@ -3,7 +3,7 @@ import TodoApp from "./components/pages/TodoApp";
 
 const App: React.FC = () => {
   return (
-    <div>
+    <div className="w-screen">
       <TodoApp />
     </div>
   );

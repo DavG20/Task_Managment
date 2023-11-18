@@ -5,6 +5,8 @@ import Card from "../common/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+import { FiAlignJustify, FiX } from "react-icons/fi";
+
 import TodoForm from "../todo/TodoForm";
 import TaskFilter from "../todo/TaskFilter";
 
@@ -19,6 +21,7 @@ const TodoApp: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
   const [filterTitle, setFilterTitle] = useState<string>("All");
+  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const toggleVisibility = () => {
     setIsVisible((prev) => !prev);
@@ -110,7 +113,7 @@ const TodoApp: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen  " style={{ maxWidth: "100vw" }}>
+    <div className=" flex flex-col md:flex-row h-screen  w-full ">
       <div className="w-2/6 p-4 md:flex hidden">
         <TaskFilter
           onSearch={handleSearch}
@@ -121,6 +124,19 @@ const TodoApp: React.FC = () => {
         />
       </div>
       <div className={` w-full p-4  mt-4 md:w-2/6`}>
+        <div className="md:hidden flex items-end justify-end ">
+          <button
+            className="text-gray-500"
+            onClick={() => setIsOpen((isOpen) => !isOpen)}
+          >
+            {isOpen ? (
+              <FiX className="w-6 h-6" />
+            ) : (
+              <FiAlignJustify className="w-6 h-6" />
+            )}
+          </button>
+        </div>
+
         <div className="flex  mb-8 mt-4 ">
           <div className="w-auto h-auto p-2 ml-8 ">
             <p className="text-4xl font-bold mb-2 mr-4 ml-6">{filterTitle}</p>
@@ -131,8 +147,8 @@ const TodoApp: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className=" flex-col md:h-4/6 overflow-hidden  ">
-          <div className="m-2">
+        <div className=" h-3/4 flex-col md:h-3/4 overflow-hidden  ">
+          <div className="m-2 md:m-0">
             <Card>
               <button
                 className="text-gray-500 p-4   my-1 "
@@ -147,10 +163,7 @@ const TodoApp: React.FC = () => {
               </button>
             </Card>
           </div>
-          <div
-            className=" md:h-full overflow-y-auto"
-            style={{ maxHeight: "calc(100vh - 80px)" }}
-          >
+          <div className=" md:h-full overflow-y-auto">
             <TodoList
               tasks={filteredTasks}
               markAsCompleted={markAsCompleted}
@@ -161,7 +174,8 @@ const TodoApp: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="md:flex w-2/6 p-4 hidden">
+
+      <div className={`p-4  mt-4 ${isVisible ? "md:w-2/6" : "md:w-1/6"}`}>
         <TodoForm
           handleTaskAction={handleAddOrUpdateTask}
           isEditMode={isEditMode}
