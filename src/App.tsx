@@ -3,7 +3,7 @@ import TodoApp from "./components/pages/TodoApp";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div>
       <TodoApp />
     </div>
   );

@@ -110,7 +110,7 @@ const TodoApp: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen  ">
+    <div className="flex h-screen  " style={{ maxWidth: "100vw" }}>
       <div className="w-2/6 p-4 md:flex hidden">
         <TaskFilter
           onSearch={handleSearch}
@@ -120,7 +120,7 @@ const TodoApp: React.FC = () => {
           tasks={tasks}
         />
       </div>
-      <div className={` w-full p-4  mt-4 md:w-3/6`}>
+      <div className={` w-full p-4  mt-4 md:w-2/6`}>
         <div className="flex  mb-8 mt-4 ">
           <div className="w-auto h-auto p-2 ml-8 ">
             <p className="text-4xl font-bold mb-2 mr-4 ml-6">{filterTitle}</p>

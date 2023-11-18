@@ -79,7 +79,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-start p-4 border rounded-xl w-3/4">
+    <div className=" flex flex-col items-start p-4 border rounded-xl w-full">
       <div className="mb-4 text-start">
         <h2 className="text-2xl font-semibold">Menu</h2>
       </div>
