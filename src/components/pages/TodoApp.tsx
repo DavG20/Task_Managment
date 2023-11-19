@@ -114,7 +114,7 @@ const TodoApp: React.FC = () => {
 
   return (
     <div className=" flex flex-col md:flex-row h-screen  w-full ">
-      <div className="w-2/6 p-4 md:flex hidden">
+      <div className="md:w-2/6 p-4 w-auto flex ">
         <TaskFilter
           onSearch={handleSearch}
           onUpcoming={handleUpcoming}
@@ -124,7 +124,7 @@ const TodoApp: React.FC = () => {
         />
       </div>
       <div className={` w-full p-4  mt-4 md:w-2/6`}>
-        <div className="md:hidden flex items-end justify-end ">
+        {/* <div className="md:hidden flex items-end justify-end ">
           <button
             className="text-gray-500"
             onClick={() => setIsOpen((isOpen) => !isOpen)}
@@ -135,11 +135,13 @@ const TodoApp: React.FC = () => {
               <FiAlignJustify className="w-6 h-6" />
             )}
           </button>
-        </div>
+        </div> */}
 
         <div className="flex  mb-8 mt-4 ">
-          <div className="w-auto h-auto p-2 ml-8 ">
-            <p className="text-4xl font-bold mb-2 mr-4 ml-6">{filterTitle}</p>
+          <div className="w-auto md:h-auto p-2 ml-8 ">
+            <p className="md:text-4xl text-lg font-bold md:mb-2 mb-0 md:mr-4 mr-1 md:ml-6 ml-2">
+              {filterTitle}
+            </p>
           </div>
           <div className="w-auto h-auto shadow-sm border rounded-md ml-8 ">
             <p className="text-4xl font-bold m-2 px-2">
@@ -163,7 +165,7 @@ const TodoApp: React.FC = () => {
               </button>
             </Card>
           </div>
-          <div className=" md:h-full overflow-y-auto">
+          <div className=" md:h-full h-3/4 overflow-y-auto md:m-2 m-1">
             <TodoList
               tasks={filteredTasks}
               markAsCompleted={markAsCompleted}

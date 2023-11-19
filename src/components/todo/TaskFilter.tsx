@@ -99,7 +99,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
             />
             <button
               type="submit"
-              className=" text-white p-2  rounded-r-md bg-gray-300"
+              className=" text-white md:p-2  p-1 rounded-r-md bg-gray-300"
             >
               <FontAwesomeIcon icon={faSearch} />
             </button>

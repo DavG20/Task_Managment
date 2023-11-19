@@ -22,7 +22,7 @@ const TodoList: React.FC<TodoListProps> = ({
     setExpandedItemId((prev) => (prev === itemId ? null : itemId));
   };
   return (
-    <div className="w-full">
+    <div className="w-full ">
       {tasks.map((task) => (
         <TodoItem
           key={task.id}
