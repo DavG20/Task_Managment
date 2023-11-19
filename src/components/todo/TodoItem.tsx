@@ -35,11 +35,12 @@ function TodoItem({
   };
 
   return (
-    <div className=" flex items-center border-b flex-col  p-4 m-2 hover:bg-gray-100">
+    <div className=" flex items-center border-b flex-col  p-4 m-2 hover:bg-gray-100 hover:border hover:rounded-md">
       <div className="flex items-center justify-between w-full ">
         <div className="flex items-center space-x-3 mb-2">
           <input
             type="checkbox"
+            id={`taskcheckbox_${task.id}`}
             checked={task.isCompleted}
             onChange={() => markAsCompleted(task.id)}
             className="round rounded-none"

@@ -5,8 +5,6 @@ import Card from "../common/card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { FiAlignJustify, FiX } from "react-icons/fi";
-
 import TodoForm from "../todo/TodoForm";
 import TaskFilter from "../todo/TaskFilter";
 
@@ -21,7 +19,7 @@ const TodoApp: React.FC = () => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
   const [filterTitle, setFilterTitle] = useState<string>("All");
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const toggleVisibility = () => {
     setIsVisible((prev) => !prev);
@@ -75,6 +73,20 @@ const TodoApp: React.FC = () => {
       setFilterTitle("All");
     }
   };
+  const scrollToTaskList = () => {
+    const taskList = document.getElementById("task-list");
+
+    if (isMobile) {
+      const offsetTop = taskList?.offsetTop;
+      if (offsetTop) {
+        window.scrollTo({
+          top: offsetTop - 100,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
+
   const handleSearch = (searchQuery: string) => {
     if (searchQuery.trim() === "") {
       setFilteredTasks(todayTasks);
@@ -86,22 +98,26 @@ const TodoApp: React.FC = () => {
     );
     setFilteredTasks(filteredTasks);
     setFilterTitle(` ${searchQuery[0].toUpperCase()}${searchQuery.slice(1)}`);
+    scrollToTaskList();
   };
 
   const handleUpcoming = () => {
     const upcomingTasks = tasks.filter((task) => task.deadLine > todayDate);
     setFilteredTasks(upcomingTasks);
     setFilterTitle("Upcoming");
+    scrollToTaskList();
   };
   const handleToday = () => {
     setFilterTitle("Today");
     setFilteredTasks(todayTasks);
+    scrollToTaskList();
   };
 
   const handleCategory = (category: string) => {
     if (category === "All") {
       setFilteredTasks(tasks);
       setFilterTitle("All");
+
       return;
     }
 
@@ -110,8 +126,22 @@ const TodoApp: React.FC = () => {
     );
     setFilteredTasks(filteredTask);
     setFilterTitle(category);
+    scrollToTaskList();
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <div className=" flex flex-col md:flex-row h-screen  w-full ">
       <div className="md:w-2/6 p-4 w-auto flex ">
@@ -124,19 +154,6 @@ const TodoApp: React.FC = () => {
         />
       </div>
       <div className={` w-full p-4  mt-4 md:w-2/6`}>
-        {/* <div className="md:hidden flex items-end justify-end ">
-          <button
-            className="text-gray-500"
-            onClick={() => setIsOpen((isOpen) => !isOpen)}
-          >
-            {isOpen ? (
-              <FiX className="w-6 h-6" />
-            ) : (
-              <FiAlignJustify className="w-6 h-6" />
-            )}
-          </button>
-        </div> */}
-
         <div className="flex  mb-8 mt-4 ">
           <div className="w-auto md:h-auto p-2 ml-8 ">
             <p className="md:text-4xl text-lg font-bold md:mb-2 mb-0 md:mr-4 mr-1 md:ml-6 ml-2">
@@ -149,7 +166,10 @@ const TodoApp: React.FC = () => {
             </p>
           </div>
         </div>
-        <div className=" h-3/4 flex-col md:h-3/4 overflow-hidden  ">
+        <div
+          id="task-list"
+          className=" h-3/4 flex-col md:h-3/4 overflow-hidden  "
+        >
           <div className="m-2 md:m-0">
             <Card>
               <button
@@ -165,7 +185,7 @@ const TodoApp: React.FC = () => {
               </button>
             </Card>
           </div>
-          <div className=" md:h-full h-3/4 overflow-y-auto md:m-2 m-1">
+          <div className="h-3/4 overflow-y-auto md:m-2 m-1">
             <TodoList
               tasks={filteredTasks}
               markAsCompleted={markAsCompleted}
@@ -177,7 +197,10 @@ const TodoApp: React.FC = () => {
         </div>
       </div>
 
-      <div className={`p-4  mt-4 ${isVisible ? "md:w-2/6" : "md:w-1/6"}`}>
+      <div
+        id="task-form"
+        className={`p-4  mt-4 ${isVisible ? "md:w-2/6" : "md:w-1/6"}`}
+      >
         <TodoForm
           handleTaskAction={handleAddOrUpdateTask}
           isEditMode={isEditMode}

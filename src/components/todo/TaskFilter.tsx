@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { Task } from "../../interfaces/TaskModel";
+import { on } from "events";
 
 interface TaskFilterProps {
   onSearch: (searchQuery: string) => void;
@@ -63,6 +64,9 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
       home,
     });
   };
+  const [clickedButton, setClickedButton] = useState<string | null>(null);
+
+  const isMobile = window.innerWidth < 768;
   useEffect(() => {
     updateCount(tasks);
   }, [tasks]);
@@ -70,16 +74,25 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = event.target.value;
     setSearchQuery(searchQuery);
-    onSearch(searchQuery);
+    if (!isMobile) {
+      onSearch(searchQuery);
+    }
   };
 
   const handleSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSearch(searchQuery);
   };
-
+  const handleClickButton = (buttonName: string, callback: () => void) => {
+    setClickedButton(buttonName);
+    callback();
+  };
+  const handleClickedCategory = (category: string) => {
+    setClickedButton(category);
+    onCategory(category);
+  };
   return (
-    <div className=" flex flex-col items-start p-4 border rounded-xl w-full">
+    <div className=" md:flex md:flex-col items-start p-4 border rounded-xl w-full">
       <div className="mb-4 text-start">
         <h2 className="text-2xl font-semibold">Menu</h2>
       </div>
@@ -97,6 +110,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
               className="w-full p-2 h-full rounded-md bg-gray-100  hover:outline-none focus:outline-none"
               placeholder="Search"
             />
+
             <button
               type="submit"
               className=" text-white md:p-2  p-1 rounded-r-md bg-gray-300"
@@ -110,10 +124,12 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         <div className="m-2 mb-4 text-center  font-bold">
           <h2 className="text-xl font-semibold">Tasks</h2>
         </div>
-        <div className="flex flex-row w-full font-bold  mb-4 ">
+        <div className={`flex flex-row w-full font-bold  mb-4 `}>
           <button
-            onClick={onUpcoming}
-            className=" text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black"
+            onClick={() => handleClickButton("Upcoming", onUpcoming)}
+            className={` text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black ${
+              clickedButton === "Upcoming" ? "bg-gray-200" : ""
+            }`}
           >
             <span className="mr-2">
               <FontAwesomeIcon icon={faAngleDoubleRight} />
@@ -126,8 +142,10 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         </div>
         <div className="flex flex-row font-bold  w-full mb-4">
           <button
-            onClick={onToday}
-            className=" text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black"
+            onClick={() => handleClickButton("Today", onToday)}
+            className={` text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black ${
+              clickedButton === "Today" ? "bg-gray-200" : ""
+            }`}
           >
             <span className="mr-2">
               <FontAwesomeIcon icon={faTasks} />
@@ -144,8 +162,10 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
 
         <div className="flex flex-row font-bold  w-full mb-4">
           <button
-            onClick={() => onCategory("Personal")}
-            className=" text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black"
+            onClick={() => handleClickedCategory("Personal")}
+            className={` text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black ${
+              clickedButton === "Personal" ? "bg-gray-200" : ""
+            }`}
           >
             <span className="mr-2 ">
               <FontAwesomeIcon icon={faUser} />
@@ -158,8 +178,10 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         </div>
         <div className="flex flex-row font-bold  w-full mb-4">
           <button
-            onClick={() => onCategory("Work")}
-            className=" text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black"
+            onClick={() => handleClickedCategory("Work")}
+            className={` text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black ${
+              clickedButton === "Work" ? "bg-gray-200" : ""
+            }`}
           >
             <span className="mr-2 ">
               <FontAwesomeIcon icon={faBriefcase} />
@@ -172,8 +194,10 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         </div>
         <div className="flex flex-row font-bold  w-full mb-4">
           <button
-            onClick={() => onCategory("Home")}
-            className=" text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black"
+            onClick={() => handleClickedCategory("Home")}
+            className={` text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black ${
+              clickedButton === "Home" ? "bg-gray-200" : ""
+            }`}
           >
             <span className="mr-2 ">
               <FontAwesomeIcon icon={faHome} />
@@ -186,8 +210,10 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         </div>
         <div className="flex flex-row font-bold  w-full mb-4">
           <button
-            onClick={() => onCategory("Shopping")}
-            className=" text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black"
+            onClick={() => handleClickedCategory("Shopping")}
+            className={` text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black ${
+              clickedButton === "Shopping" ? "bg-gray-200" : ""
+            }`}
           >
             <span className="mr-2 ">
               <FontAwesomeIcon icon={faShoppingBasket} />
@@ -200,8 +226,10 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         </div>
         <div className="flex flex-row font-bold  w-full mb-4">
           <button
-            onClick={() => onCategory("All")}
-            className=" text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black"
+            onClick={() => handleClickedCategory("All")}
+            className={` text-gray-400 p-2 rounded-md m-1 flex items-center w-full justify-between hover:bg-gray-200 hover:text-black ${
+              clickedButton === "All" ? "bg-gray-200" : ""
+            }`}
           >
             <span className="mr-2 ">
               <FontAwesomeIcon icon={faShoppingBasket} />
